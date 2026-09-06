@@ -1,4 +1,4 @@
 export const environment = {
-  production: true,
-  apiBaseUrl: '', // unused for this assignment — CLI convention, not a real deployment target
+  production: false,
+  apiBaseUrl: 'https://localhost:7030/api',
 };
