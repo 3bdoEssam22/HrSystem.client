@@ -1,0 +1,60 @@
+<section class="my-leave-list">
+  <header class="my-leave-list__header">
+    <h1>My Leave</h1>
+    <a routerLink="/my-leave/new" class="button button--primary">New Request</a>
+  </header>
+
+  <div class="my-leave-list__filters">
+    <label>
+      Type
+      <select [value]="typeFilter()" (change)="typeFilter.set($any($event.target).value)">
+        @for (t of typeOptions; track t) {
+          <option [value]="t">{{ t }}</option>
+        }
+      </select>
+    </label>
+    <label>
+      Status
+      <select [value]="statusFilter()" (change)="statusFilter.set($any($event.target).value)">
+        @for (s of statusOptions; track s) {
+          <option [value]="s">{{ s }}</option>
+        }
+      </select>
+    </label>
+  </div>
+
+  @switch (state()) {
+    @case ('loading') {
+      <app-loading-spinner />
+    }
+    @case ('error') {
+      <app-error-banner [error]="error()" />
+      <button type="button" (click)="load()">Retry</button>
+    }
+    @case ('success') {
+      @if (filteredRequests().length === 0) {
+        <app-empty-state message="No leave requests match these filters." />
+      } @else {
+        <table class="my-leave-table">
+          <thead>
+            <tr>
+              <th>Type</th><th>Start</th><th>End</th><th>Days</th><th>Status</th><th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (r of filteredRequests(); track r.id) {
+              <tr>
+                <td>{{ r.type }}</td>
+                <td>{{ r.startDate }}</td>
+                <td>{{ r.endDate }}</td>
+                <td>{{ r.chargeableBusinessDays }}</td>
+                <td><span class="status status--{{ r.status.toLowerCase() }}">{{ r.status }}</span></td>
+                <td><a [routerLink]="['/my-leave', r.id]">View</a></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    }
+  }
+</section>

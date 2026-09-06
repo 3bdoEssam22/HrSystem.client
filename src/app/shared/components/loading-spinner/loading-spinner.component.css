@@ -1,0 +1,5 @@
+.loading-spinner {
+  padding: 1.5rem 0;
+  color: var(--color-text-muted, #6b6b6b);
+  font-style: italic;
+}

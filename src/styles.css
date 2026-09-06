@@ -1,0 +1,25 @@
+:root {
+  --color-bg: #F5F6F5;
+  --color-surface: #FFFFFF;
+  --color-ink: #1F2430;
+  --color-ink-muted: #5B6270;
+  --color-border: #DDE1E6;
+  --color-accent: #1F6F5C;
+  --color-accent-ink: #FFFFFF;
+  --color-danger: #A94438;
+  --color-danger-bg: #FBEAE8;
+  --color-warning: #B8842A;
+  --color-neutral: #8A8F98;
+
+  --font-heading: "Source Serif 4", Georgia, serif;
+  --font-body: "Inter", -apple-system, sans-serif;
+
+  --radius: 4px;
+  --space-1: 4px; --space-2: 8px; --space-3: 16px; --space-4: 24px; --space-5: 40px;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--font-body); color: var(--color-ink); background: var(--color-bg); }
+h1, h2, h3 { font-family: var(--font-heading); font-weight: 600; margin: 0; }
+button { font-family: var(--font-body); }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 1px; }

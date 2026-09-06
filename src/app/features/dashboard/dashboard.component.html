@@ -1,0 +1,89 @@
+@if (isAdmin()) {
+  <section class="dashboard dashboard--admin">
+    <h1>Welcome, {{ auth.currentUser()?.fullName }}</h1>
+    <p>You're signed in as an Administrator. Use the sections below to manage the system.</p>
+    <div class="dashboard__quick-links">
+      <a routerLink="/admin/requests">Review Requests</a>
+      <a routerLink="/admin/policies">Leave Policies</a>
+      <a routerLink="/admin/holidays">Public Holidays</a>
+      <a routerLink="/admin/users">Users</a>
+      <a routerLink="/admin/participation-settings">Participation Settings</a>
+    </div>
+  </section>
+} @else {
+  @switch (state()) {
+    @case ('loading') {
+      <app-loading-spinner />
+    }
+    @case ('error') {
+      <app-error-banner [error]="error()" />
+      <button type="button" (click)="load()">Retry</button>
+    }
+    @case ('success') {
+      <section class="dashboard">
+        <h1>Welcome, {{ auth.currentUser()?.fullName }}</h1>
+
+        <div class="dashboard__participation">
+          <h2>Participation</h2>
+          <p>
+            Status:
+            <strong>{{ participation()?.status === 'OptedIn' ? 'Opted In' : 'Opted Out' }}</strong>
+          </p>
+          @if (participation()?.status === 'OptedOut' && participation()?.eligibleToOptInOn) {
+            <p>Eligible to opt back in on {{ participation()?.eligibleToOptInOn }}.</p>
+          }
+          <a routerLink="/participation">Manage participation</a>
+        </div>
+
+        <div class="dashboard__balances">
+          <h2>Leave Balances</h2>
+          @if (balances().length === 0) {
+            <app-empty-state message="No leave balances configured yet." />
+          } @else {
+            <table class="balances-table">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Allowance</th>
+                  <th>Reserved</th>
+                  <th>Remaining</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (b of balances(); track b.type) {
+                  <tr>
+                    <td>{{ b.type }}</td>
+                    <td>{{ b.annualAllowanceDays }}</td>
+                    <td>{{ b.reservedDays }}</td>
+                    <td>{{ b.remainingDays }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          }
+        </div>
+
+        <div class="dashboard__recent">
+          <h2>Recent Requests</h2>
+          @if (recentRequestsSorted().length === 0) {
+            <app-empty-state message="You haven't submitted any leave requests yet.">
+              <a routerLink="/my-leave/new">Create your first request</a>
+            </app-empty-state>
+          } @else {
+            <ul class="recent-list">
+              @for (r of recentRequestsSorted(); track r.id) {
+                <li>
+                  <a [routerLink]="['/my-leave', r.id]">
+                    {{ r.type }} — {{ r.startDate }} to {{ r.endDate }}
+                    <span class="status status--{{ r.status.toLowerCase() }}">{{ r.status }}</span>
+                  </a>
+                </li>
+              }
+            </ul>
+            <a routerLink="/my-leave">View all requests</a>
+          }
+        </div>
+      </section>
+    }
+  }
+}

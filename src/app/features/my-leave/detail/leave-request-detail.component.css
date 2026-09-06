@@ -1,0 +1,2 @@
+dl { display: grid; grid-template-columns: max-content 1fr; gap: 0.4rem 1rem; }
+.leave-detail__actions { display: flex; gap: 1rem; margin-top: 1.5rem; align-items: center; }

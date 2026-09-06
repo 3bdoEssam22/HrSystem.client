@@ -1,0 +1,17 @@
+.dashboard h1 { font-family: var(--font-heading, 'Source Serif 4', serif); }
+.dashboard > div { margin-bottom: 2rem; }
+.dashboard__quick-links { display: flex; flex-wrap: wrap; gap: 1rem; }
+.balances-table, .my-leave-table { width: 100%; border-collapse: collapse; }
+.balances-table th, .balances-table td,
+.my-leave-table th, .my-leave-table td {
+  border-bottom: 1px solid var(--color-border, #e2e2e2);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+.recent-list { list-style: none; padding: 0; }
+.recent-list li { padding: 0.5rem 0; border-bottom: 1px solid var(--color-border, #e2e2e2); }
+.status { padding: 0.15rem 0.5rem; border-radius: 3px; font-size: 0.8rem; margin-left: 0.5rem; }
+.status--pending { background: #fff4d6; }
+.status--approved { background: #dff5e1; }
+.status--rejected { background: #fde2e0; }
+.status--cancelled { background: #e8e8e8; }

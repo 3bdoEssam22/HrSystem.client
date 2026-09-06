@@ -1,0 +1,45 @@
+@switch (state()) {
+  @case ('loading') {
+    <app-loading-spinner />
+  }
+  @case ('error') {
+    <app-error-banner [error]="error()" />
+    <a routerLink="/my-leave">Back to My Leave</a>
+  }
+  @case ('success') {
+    @if (request(); as r) {
+      <section class="leave-detail">
+        <header>
+          <h1>{{ r.type }} Request</h1>
+          <span class="status status--{{ r.status.toLowerCase() }}">{{ r.status }}</span>
+        </header>
+
+        <dl>
+          <dt>Start Date</dt><dd>{{ r.startDate }}</dd>
+          <dt>End Date</dt><dd>{{ r.endDate }}</dd>
+          <dt>Chargeable Business Days</dt><dd>{{ r.chargeableBusinessDays }}</dd>
+          <dt>Submitted</dt><dd>{{ r.submittedAt }}</dd>
+          @if (r.updatedAt) { <dt>Last Updated</dt><dd>{{ r.updatedAt }}</dd> }
+          @if (r.decidedAt) { <dt>Decided</dt><dd>{{ r.decidedAt }}</dd> }
+          @if (r.decisionReason) { <dt>Decision Reason</dt><dd>{{ r.decisionReason }}</dd> }
+        </dl>
+
+        @if (cancelError()) {
+          <app-error-banner [error]="cancelError()" />
+        }
+
+        <div class="leave-detail__actions">
+          @if (canEdit()) {
+            <a [routerLink]="['/my-leave', r.id, 'edit']">Edit</a>
+          }
+          @if (canCancel()) {
+            <button type="button" [disabled]="cancelling()" (click)="cancel()">
+              {{ cancelling() ? 'Cancelling…' : 'Cancel Request' }}
+            </button>
+          }
+          <a routerLink="/my-leave">Back</a>
+        </div>
+      </section>
+    }
+  }
+}

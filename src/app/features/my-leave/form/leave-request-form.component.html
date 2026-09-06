@@ -1,0 +1,55 @@
+@switch (loadState()) {
+  @case ('loading') {
+    <app-loading-spinner />
+  }
+  @case ('error') {
+    <app-error-banner [error]="submitError()" />
+    <a routerLink="/my-leave">Back to My Leave</a>
+  }
+  @default {
+    <section class="leave-form">
+      <h1>{{ mode() === 'edit' ? 'Edit Leave Request' : 'New Leave Request' }}</h1>
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <label>
+          Type
+          <select formControlName="type">
+            @for (t of leaveTypes; track t) {
+              <option [value]="t">{{ t }}</option>
+            }
+          </select>
+        </label>
+
+        <label>
+          Start Date
+          <input type="date" formControlName="startDate" />
+        </label>
+        @if (form.controls.startDate.touched && form.controls.startDate.invalid) {
+          <p class="field-error">Start date is required.</p>
+        }
+
+        <label>
+          End Date
+          <input type="date" formControlName="endDate" [readonly]="isDayOff()" />
+        </label>
+        @if (form.controls.endDate.touched && form.controls.endDate.invalid) {
+          <p class="field-error">End date is required.</p>
+        }
+        @if (form.errors?.['endBeforeStart'] && form.controls.endDate.touched) {
+          <p class="field-error">End date must be on or after the start date.</p>
+        }
+
+        @if (submitError()) {
+          <app-error-banner [error]="submitError()" />
+        }
+
+        <div class="leave-form__actions">
+          <button type="submit" [disabled]="submitting()">
+            {{ submitting() ? 'Saving…' : 'Save' }}
+          </button>
+          <a routerLink="/my-leave">Cancel</a>
+        </div>
+      </form>
+    </section>
+  }
+}

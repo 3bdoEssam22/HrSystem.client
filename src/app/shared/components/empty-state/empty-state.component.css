@@ -1,0 +1,6 @@
+.empty-state {
+  border: 1px dashed var(--color-border, #d8d8d8);
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--color-text-muted, #6b6b6b);
+}
