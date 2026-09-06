@@ -75,7 +75,7 @@ export class LoginComponent {
 
     this.authApi.login(this.form.getRawValue()).subscribe({
       next: (response) => {
-        this.authService.setSession(response.data!);
+        this.authService.setSession(response);
         this.router.navigate(['/dashboard']);
       },
       error: (appError: AppError) => {
