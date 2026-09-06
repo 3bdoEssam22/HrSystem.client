@@ -32,53 +32,90 @@ export const routes: Routes = [
             (m) => m.ParticipationComponent
           ),
       },
-      // --- Placeholders for remaining features so clicking sidebar links never 404s ---
       {
         path: 'my-leave',
         canActivate: [roleGuard(['Employee', 'Manager'])],
         loadComponent: () =>
-          import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+          import('./features/my-leave/list/my-leave-list.component').then(
+            (m) => m.MyLeaveListComponent
+          ),
+      },
+      {
+        path: 'my-leave/new',
+        canActivate: [roleGuard(['Employee', 'Manager'])],
+        loadComponent: () =>
+          import('./features/my-leave/form/leave-request-form.component').then(
+            (m) => m.LeaveRequestFormComponent
+          ),
+      },
+      {
+        path: 'my-leave/:id',
+        canActivate: [roleGuard(['Employee', 'Manager'])],
+        loadComponent: () =>
+          import('./features/my-leave/detail/leave-request-detail.component').then(
+            (m) => m.LeaveRequestDetailComponent
+          ),
+      },
+      {
+        path: 'my-leave/:id/edit',
+        canActivate: [roleGuard(['Employee', 'Manager'])],
+        loadComponent: () =>
+          import('./features/my-leave/form/leave-request-form.component').then(
+            (m) => m.LeaveRequestFormComponent
+          ),
       },
       {
         path: 'team-requests',
         canActivate: [roleGuard(['Manager'])],
         loadComponent: () =>
-          import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+          import('./features/team-requests/team-requests.component').then(
+            (m) => m.TeamRequestsComponent
+          ),
       },
       {
         path: 'admin/requests',
         canActivate: [roleGuard(['Admin'])],
         loadComponent: () =>
-          import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+          import('./features/admin/requests/admin-requests.component').then(
+            (m) => m.AdminRequestsComponent
+          ),
       },
       {
         path: 'admin/policies',
         canActivate: [roleGuard(['Admin'])],
         loadComponent: () =>
-          import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+          import('./features/admin/policies/admin-policies.component').then(
+            (m) => m.AdminPoliciesComponent
+          ),
       },
       {
         path: 'admin/holidays',
         canActivate: [roleGuard(['Admin'])],
         loadComponent: () =>
-          import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+          import('./features/admin/holidays/admin-holidays.component').then(
+            (m) => m.AdminHolidaysComponent
+          ),
       },
       {
         path: 'admin/users',
         canActivate: [roleGuard(['Admin'])],
         loadComponent: () =>
-          import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+          import('./features/admin/users/admin-users.component').then(
+            (m) => m.AdminUsersComponent
+          ),
       },
       {
         path: 'admin/participation-settings',
         canActivate: [roleGuard(['Admin'])],
         loadComponent: () =>
-          import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+          import('./features/admin/settings/admin-settings.component').then(
+            (m) => m.AdminSettingsComponent
+          ),
       },
     ],
   },
   {
     path: '**',
-    redirectTo: 'dashboard', // Any unknown route stays inside the authenticated app
+    redirectTo: 'dashboard',
   },
 ];
